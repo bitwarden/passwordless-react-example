@@ -12,7 +12,6 @@ function Menu() {
                     <li><Link to='/register'>Register</Link></li>
                     <li><Link to='/'>Public</Link></li>
                     <li><Link to='/user'>User</Link></li>
-                    <li><Link to='/admin'>Admin</Link></li>
                 </ul>
             </nav>
         </header>

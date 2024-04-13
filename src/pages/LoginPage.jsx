@@ -4,6 +4,7 @@ import * as Passwordless from "@passwordlessdev/passwordless-client";
 import YourBackendClient from "../services/YourBackendClient";
 import {PASSWORDLESS_API_KEY, PASSWORDLESS_API_URL} from "../configuration/PasswordlessOptions";
 
+
 export default function LoginPage() {
     const aliasRef = useRef();
     const errRef = useRef();
@@ -15,6 +16,16 @@ export default function LoginPage() {
     useEffect(() => {
         setErrMsg("");
     }, [alias]);
+
+    const decodeJwt = (jwtToken) => {
+        let base64Url = jwtToken.split('.')[1];
+        let base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+        let jsonPayload = decodeURIComponent(window.atob(base64).split('').map(function(c) {
+            return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+        }).join(''));
+
+        return JSON.parse(jsonPayload);
+    }
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -33,8 +44,12 @@ export default function LoginPage() {
             return;
         }
         const verifiedToken = await yourBackendClient.signIn(token.token);
-        localStorage.setItem('jwt', verifiedToken.jwt);
-        setAuth({ verifiedToken });
+        localStorage.setItem('jwt', verifiedToken.jwtToken);
+        const decoded = decodeJwt(verifiedToken.jwtToken);
+        setAuth({
+            jwt: verifiedToken.jwtToken,
+            userid: decoded.nameid,
+            username: decoded.unique_name});
         setSuccess(true);
     }
 
