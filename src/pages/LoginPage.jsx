@@ -5,10 +5,13 @@ import YourBackendClient from "../services/YourBackendClient";
 import {PASSWORDLESS_API_KEY, PASSWORDLESS_API_URL} from "../configuration/PasswordlessOptions";
 
 export default function LoginPage() {
+    const aliasRef = useRef();
     const errRef = useRef();
     const [errMsg, setErrMsg] = useState("");
     const [success, setSuccess] = useState(false);
     const { setAuth }  = useContext(authContext);
+    const [alias, setAlias] = useState("");
+
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -17,7 +20,12 @@ export default function LoginPage() {
             apiKey: PASSWORDLESS_API_KEY
         });
         const yourBackendClient = new YourBackendClient()
-        const token = await passwordless.signinWithDiscoverable();
+        let token = null;
+        if (alias !== "") {
+            token = await passwordless.signinWithAlias(alias);
+        } else {
+            token = await passwordless.signinWithDiscoverable();
+        }
         if (!token) {
             return;
         }
@@ -45,10 +53,21 @@ export default function LoginPage() {
                         {errMsg}
                     </p>
                     <h1>Sign In</h1>
+                    <label htmlFor="alias">Alias:</label>
+                    <input
+                        type="text"
+                        id="alias"
+                        ref={aliasRef}
+                        autoComplete="off"
+                        onChange={(e) => setAlias(e.target.value)}
+                        value={alias}
+                        required
+                        aria-describedby="uidnote"
+                    />
                     <button onClick={handleSubmit}>Sign In</button>
                     <p>
                         Need an Account?
-                        <br />
+                        <br/>
                         <span className="line">
               <a href="#">Sign Up</a>
             </span>

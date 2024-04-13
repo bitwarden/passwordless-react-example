@@ -5,31 +5,27 @@ import { ToastContainer, toast } from 'react-toastify';
 import YourBackendClient from "../services/YourBackendClient";
 
 export default function RegisterPage() {
-    const userRef = useRef();
-    const firstNameRef = useRef();
-    const lastNameRef = useRef();
+    const usernameRef = useRef();
     const aliasRef = useRef();
     const errRef = useRef();
-    const [user, setUser] = useState("");
-    const [firstName, setFirstName] = useState("");
-    const [lastName, setLastName] = useState("");
+    const [username, setUsername] = useState("");
     const [alias, setAlias] = useState("");
     const [errMsg, setErrMsg] = useState("");
 
     useEffect(() => {
-        userRef.current.focus();
+        usernameRef.current.focus();
     }, []);
 
 
     useEffect(() => {
         setErrMsg("");
-    }, [user]);
+    }, [username]);
 
     const handleSubmit = async (e) => {
         let registerToken = null;
         try {
             const yourBackendClient = new YourBackendClient();
-            registerToken = await yourBackendClient.register(user, firstName, lastName, alias);
+            registerToken = await yourBackendClient.register(username, alias);
         }
         catch (error)
         {
@@ -44,10 +40,10 @@ export default function RegisterPage() {
                 apiKey: PASSWORDLESS_API_KEY,
                 apiUrl: PASSWORDLESS_API_URL
             });
-            const finalResponse = await p.register(registerToken.token, alias);
+            const finalResponse = await p.register(registerToken.token);
 
             if (finalResponse) {
-                toast(`Registered '${alias}'!`);
+                toast(`Registered '${username}'!`);
             }
         }
     };
@@ -67,32 +63,10 @@ export default function RegisterPage() {
                 <input
                     type="text"
                     id="username"
-                    ref={userRef}
+                    ref={usernameRef}
                     autoComplete="off"
-                    onChange={(e) => setUser(e.target.value)}
-                    value={user}
-                    required
-                    aria-describedby="uidnote"
-                />
-                <label htmlFor="firstname">FirstName:</label>
-                <input
-                    type="text"
-                    id="firstName"
-                    ref={firstNameRef}
-                    autoComplete="off"
-                    onChange={(e) => setFirstName(e.target.value)}
-                    value={firstName}
-                    required
-                    aria-describedby="uidnote"
-                />
-                <label htmlFor="lastname">LastName:</label>
-                <input
-                    type="text"
-                    id="lastname"
-                    ref={lastNameRef}
-                    autoComplete="off"
-                    onChange={(e) => setLastName(e.target.value)}
-                    value={lastName}
+                    onChange={(e) => setUsername(e.target.value)}
+                    value={username}
                     required
                     aria-describedby="uidnote"
                 />
