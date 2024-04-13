@@ -1,4 +1,4 @@
-import {useContext, useRef, useState} from "react";
+import {useContext, useEffect, useRef, useState} from "react";
 import authContext from "../context/AuthProvider";
 import * as Passwordless from "@passwordlessdev/passwordless-client";
 import YourBackendClient from "../services/YourBackendClient";
@@ -12,6 +12,9 @@ export default function LoginPage() {
     const { setAuth }  = useContext(authContext);
     const [alias, setAlias] = useState("");
 
+    useEffect(() => {
+        setErrMsg("");
+    }, [alias]);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
