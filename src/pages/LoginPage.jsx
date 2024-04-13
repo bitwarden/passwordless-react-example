@@ -68,13 +68,6 @@ export default function LoginPage() {
                         aria-describedby="uidnote"
                     />
                     <button onClick={handleSubmit}>Sign In</button>
-                    <p>
-                        Need an Account?
-                        <br/>
-                        <span className="line">
-              <a href="#">Sign Up</a>
-            </span>
-                    </p>
                 </section>
             )}
         </>
