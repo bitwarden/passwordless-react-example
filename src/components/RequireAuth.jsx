@@ -1,6 +1,6 @@
 import { useLocation, Navigate, Outlet } from "react-router-dom";
 import useAuth from "../hooks/useAuth";
-import jwtDecode from "jwt-decode";
+import { jwtDecode } from "jwt-decode";
 
 function hasMatchingRole(allowedRoles, userRoles) {
     if (!allowedRoles || allowedRoles.length === 0) {
