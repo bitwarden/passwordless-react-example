@@ -124,7 +124,6 @@ export default function RegisterPage() {
                     />
                 </div>
                 <button onClick={handleSubmit}>Register</button>
-                <p>Already registered?</p>
                 <ToastContainer/>
             </section>
         </>
