@@ -14,7 +14,7 @@
     "jwt-decode": "4.0.0",
     "react": "19.0.0",
     "react-dom": "19.0.0",
-    "react-router-dom": "6.26.2",
+    "react-router-dom": "7.9.4",
     "react-toastify": "11.0.2"
   },
   "devDependencies": {
